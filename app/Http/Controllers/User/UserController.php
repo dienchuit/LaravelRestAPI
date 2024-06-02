@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -12,7 +13,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::all();
+        return response()->json(['data'=>$users], 200);
     }
 
     /**
@@ -28,31 +30,36 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+                
+        $user = User::create($request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:8|confirmed'
+        ]));
+        $user->verified = User::UNVERIFIED_USER;
+        $user->verification_token = User::generateVerificationCode();
+        $user->admin = User::REGULAR_USER;
+        $user->save();
+
+        return response()->json(['data'=>$user], 201);
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $user)
     {
-        //
+        return response()->json(['data'=>$user], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, User $user)
     {
-        //
+        
     }
 
     /**
