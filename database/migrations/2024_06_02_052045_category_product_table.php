@@ -1,10 +1,10 @@
 <?php
 
-use App\Models\Buyer;
 use App\Models\Product;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\Category;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -13,10 +13,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transactions', function (Blueprint $table) {
+        Schema::create('category_product', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('quantity');
-            $table->foreignIdFor(Buyer::class, 'buyer_id')->constrained('users');
+            $table->foreignIdFor(Category::class, 'category_id')->constrained('categories');
             $table->foreignIdFor(Product::class, 'product_id')->constrained('products');
             $table->timestamps();
         });
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('category_product');
     }
 };
