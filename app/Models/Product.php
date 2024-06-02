@@ -52,7 +52,7 @@ class Product extends Model
 
     public function seller(): BelongsTo
     {
-        return $this->belongsTo(Seller::class);
+        return $this->belongsTo(Seller::class, 'seller_id');
     }
 
     public function transactions(): HasMany
