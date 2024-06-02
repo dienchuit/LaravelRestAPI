@@ -24,7 +24,6 @@ class Product extends Model
      *
      * @var array
      */
-    protected $appends = ['isAvailable'];
     
     protected $fillable = [
         'name',

@@ -37,8 +37,8 @@ class SellerController extends Controller
      * Display the specified resource.
      */
     public function show(Seller $seller)
-    {        
-        if(count($seller->products) == 0){
+    {
+        if ($seller->products->isEmpty()) {
             return response()->json([
                 'error' => 'Is not Seller',
                 'code' => 409
@@ -52,7 +52,6 @@ class SellerController extends Controller
      */
     public function edit(string $id)
     {
-        
     }
 
     /**

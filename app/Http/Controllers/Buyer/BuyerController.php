@@ -24,6 +24,7 @@ class BuyerController extends Controller
      */
     public function show(Buyer $buyer)
     {
+        dd($buyer->load('transactions'));die;
         if($buyer->transactions->isEmpty()){
             return response()->json([
                 'error' => 'Is not Buyer',
