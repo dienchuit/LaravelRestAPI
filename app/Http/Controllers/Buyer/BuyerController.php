@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Buyer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Buyer;
 use Illuminate\Http\Request;
 
 class BuyerController extends Controller
@@ -12,31 +13,24 @@ class BuyerController extends Controller
      */
     public function index()
     {
-        //
+        $buyers = Buyer::has('transactions')->get();
+        return response()->json(['data' => $buyers], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+    
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Buyer $buyer)
     {
-        //
+        if($buyer->transactions->isEmpty()){
+            return response()->json([
+                'error' => 'Is not Buyer',
+                'code' => 409
+            ], 409);
+        }
+        return response()->json(['data' => $buyer], 200);
     }
 
     /**
@@ -47,13 +41,6 @@ class BuyerController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
