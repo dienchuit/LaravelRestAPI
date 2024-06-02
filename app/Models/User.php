@@ -3,14 +3,20 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Str;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    const VERIFIED_USER = '1';
+    const UNVERIFIED_USER = '0';
+    const ADMIN_USER = 'true';
+    const REGULAR_USER = 'false';
     /**
      * The attributes that are mass assignable.
      *
@@ -20,6 +26,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'verified',
+        'verification_token',
+        'admin'
     ];
 
     /**
@@ -30,6 +39,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'verification_token',
     ];
 
     /**
@@ -43,5 +53,30 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Determine if the user is Available
+     */
+    protected function isVerified(): Attribute
+    {
+        return new Attribute(
+            get: fn () =>  $this->verified == User::VERIFIED_USER
+        );
+    }
+
+    /**
+     * Determine if the user is Available
+     */
+    protected function isAdmin(): Attribute
+    {
+        return new Attribute(
+            get: fn () =>  $this->admin == User::ADMIN_USER
+        );
+    }
+
+    public static function generateVerificationCode()
+    {
+        return Str::random(40);
     }
 }
