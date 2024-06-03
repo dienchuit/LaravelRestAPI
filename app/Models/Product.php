@@ -19,6 +19,11 @@ class Product extends Model
     const AVAILABLE_PRODUCT = 'available';
     const UNAVAILABLE_PRODUCT = 'unavailable';
 
+    // Note: using snake case 
+    protected $appends = [
+        'is_available'
+    ];
+
     /**
      * The accessors to append to the model's array form.
      *

@@ -5,9 +5,9 @@ namespace App\Http\Controllers\User;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 
-class UserController extends Controller
+class UserController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -41,7 +41,7 @@ class UserController extends Controller
         $user->admin = User::REGULAR_USER;
         $user->save();
 
-        return response()->json(['data' => $user], 201);
+        return $this->showOne($user, 201);
     }
 
     /**
@@ -49,7 +49,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return response()->json(['data' => $user], 200);
+        return $this->showOne($user);
     }
 
 
@@ -80,17 +80,14 @@ class UserController extends Controller
 
         if ($request->has('admin')) {
             if (!$user->isVerified) {
-                return response()->json([
-                    'error' => 'Have Not Permission',
-                    'code' => 409
-                ], 409);
+                return $this->errorResponse('Have Not Permission', 409);
             }
             $user->admin = $request->admin;
         }
 
         $user->save();
 
-        return response()->json(['data' => $user], 201);
+        return $this->showOne($user);
     }
 
     /**
@@ -99,6 +96,6 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return response()->json(['data' => $user], 200);
+        return $this->showOne($user);
     }
 }
