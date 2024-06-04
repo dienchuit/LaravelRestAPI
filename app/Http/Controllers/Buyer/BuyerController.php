@@ -13,7 +13,7 @@ class BuyerController extends ApiController
      */
     public function index()
     {
-        $buyers = Buyer::has('transactions')->get();
+        $buyers = Buyer::get();
         return $this->showAll($buyers);
     }
 
@@ -23,10 +23,7 @@ class BuyerController extends ApiController
      * Display the specified resource.
      */
     public function show(Buyer $buyer)
-    {
-        if($buyer->transactions->isEmpty()){
-            return $this->errorResponse('Not Buyer', 409);
-        }
+    {        
         return $this->showOne($buyer);
     }
 
