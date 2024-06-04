@@ -34,7 +34,7 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
         $exceptions->render(function (ValidationException $e, Request $request) {
-            return response()->json(['error' => $e->validator->errors()->getMessages(), 'code' => 422], 422);
+            return response()->json(['error' => $e->errors(), 'code' => 422], 422);
         });
 
         $exceptions->render(function (AuthenticationException $e, Request $request) {
