@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedInteger('quantity');
             $table->foreignIdFor(Buyer::class, 'buyer_id')->constrained('users');
             $table->foreignIdFor(Product::class, 'product_id')->constrained('products');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

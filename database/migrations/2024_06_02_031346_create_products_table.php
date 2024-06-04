@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('status')->default(Product::UNAVAILABLE_PRODUCT);
             $table->string('image');
             $table->foreignIdFor(Seller::class)->constrained('users');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
