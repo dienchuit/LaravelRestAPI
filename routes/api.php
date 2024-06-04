@@ -4,6 +4,7 @@ use App\Http\Controllers\Buyer\BuyerController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Seller\SellerController;
+use App\Http\Controllers\Transaction\TransactionController;
 use App\Http\Controllers\User\UserController;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -26,7 +27,7 @@ Route::resource('sellers', SellerController::class)
     ->only(['index', 'show']);
 
 // Transactions
-Route::resource('transactions', Transaction::class)
+Route::resource('transactions', TransactionController::class)
     ->only(['index', 'show']);
 
 // Category
