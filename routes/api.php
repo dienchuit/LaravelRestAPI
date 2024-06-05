@@ -76,7 +76,7 @@ Route::resource('sellers.buyers', SellerBuyerController::class)
     ->only(['index']);
 
 Route::resource('sellers.products', SellerProductController::class)
-    ->only(['index']);
+    ->only(['index','store','update', 'destroy']);
 
 // Transactions
 Route::resource('transactions', TransactionController::class)
