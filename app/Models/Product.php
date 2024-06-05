@@ -53,7 +53,7 @@ class Product extends Model
 
     public function categories(): BelongsToMany
     {
-        return $this->belongsToMany(Category::class, 'category_id');
+        return $this->belongsToMany(Category::class);
     }
 
     public function seller(): BelongsTo

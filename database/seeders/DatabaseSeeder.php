@@ -16,14 +16,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(100)->create();
+        User::factory(20)->create();
         Category::factory(10)->create();
-        Product::factory(20)->create();
+        Product::factory(20)->create()->each(
+            function ($product) {
+                $categories = Category::all()->random(mt_rand(1, 5))->pluck('id');
+
+                $product->categories()->attach($categories);
+            });;
         Transaction::factory(10)->create();
 
         // User::factory()->create([
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        
     }
 }
