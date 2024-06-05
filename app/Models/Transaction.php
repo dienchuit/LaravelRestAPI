@@ -13,6 +13,9 @@ class Transaction extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    protected $hidden = [
+        'pivot'
+    ];
 
     protected $fillable = [
         'quantity',

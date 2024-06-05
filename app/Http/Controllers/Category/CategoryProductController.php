@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\Category;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
-class CategoryProductController extends Controller
+class CategoryProductController extends ApiController
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Category $category)
     {
-        //
+        $products = $category->products->unique('id');
+        return $this->showAll($products);
     }
 
     /**

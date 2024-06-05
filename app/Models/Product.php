@@ -26,6 +26,10 @@ class Product extends Model
         'is_available'
     ];
 
+
+    protected $hidden = [
+        'pivot'
+    ];
     /**
      * The accessors to append to the model's array form.
      *

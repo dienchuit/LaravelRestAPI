@@ -1,22 +1,27 @@
 <?php
 
-namespace App\Http\Controllers\Buyer;
+namespace App\Http\Controllers\Category;
 
 use App\Http\Controllers\ApiController;
-use App\Models\Buyer;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
-class BuyerSellerController extends ApiController
+class CategoryBuyerController extends ApiController
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Buyer $buyer)
+    public function index(Category $category)
     {
-        $sellers = $buyer->transactions->load('product.seller')
-            ->unique('product.seller')
-            ->pluck('product.seller');
-        return $this->showAll($sellers);
+        $buyers = $category->products
+            ->load('transactions.buyer')
+            ->pluck('transactions')
+            ->collapse()
+            ->pluck('buyer')
+            ->unique('buyer');
+            
+            
+        return $this->showAll($buyers);
     }
 
     /**
@@ -38,7 +43,7 @@ class BuyerSellerController extends ApiController
     /**
      * Display the specified resource.
      */
-    public function show(Buyer $buyer)
+    public function show(Category $category)
     {
         //
     }
@@ -46,7 +51,7 @@ class BuyerSellerController extends ApiController
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Buyer $buyer)
+    public function edit(Category $category)
     {
         //
     }
@@ -54,7 +59,7 @@ class BuyerSellerController extends ApiController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Buyer $buyer)
+    public function update(Request $request, Category $category)
     {
         //
     }
@@ -62,7 +67,7 @@ class BuyerSellerController extends ApiController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Buyer $buyer)
+    public function destroy(Category $category)
     {
         //
     }
