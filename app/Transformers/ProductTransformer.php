@@ -2,10 +2,10 @@
 
 namespace App\Transformers;
 
-use App\Models\User;
+use App\Models\Product;
 use League\Fractal\TransformerAbstract;
 
-class UserTransformer extends TransformerAbstract
+class ProductTransformer extends TransformerAbstract
 {
     /**
      * List of resources to automatically include
@@ -30,17 +30,19 @@ class UserTransformer extends TransformerAbstract
      *
      * @return array
      */
-    public function transform(User $user)
+    public function transform(Product $product)
     {
         return [
-            'identifier' => (int)$user->id,
-            'name' => (string)$user->name,
-            'email' => (string)$user->email,
-            'isVerified' => (int)$user->verified,
-            'isAdmin' => ($user->admin === 'true'),
-            'creationDate' => (string)$user->created_at,
-            'lastChange' => (string)$user->updated_at,
-            'deletedDate' => isset($user->deleted_at) ? (string) $user->deleted_at : null,
+            'identifier' => (int)$product->id,
+            'title' => (string)$product->name,
+            'details' => (string)$product->description,
+            'stock' => (int)$product->quantity,
+            'situation' => (string)$product->status,
+            'picture' => url("img/{$product->image}"),
+            'seller' => (int)$product->seller_id,
+            'creationDate' => (string)$product->created_at,
+            'lastChange' => (string)$product->updated_at,
+            'deletedDate' => isset($product->deleted_at) ? (string) $product->deleted_at : null,
         ];
     }
 
@@ -48,10 +50,12 @@ class UserTransformer extends TransformerAbstract
     {
         $attributes = [
             'identifier' => 'id',
-            'name' => 'name',
-            'email' => 'email',
-            'isVerified' => 'verified',
-            'isAdmin' => 'admin',
+            'title' => 'name',
+            'details' => 'description',
+            'stock' => 'quantity',
+            'situation' => 'status',
+            'picture' => 'image',
+            'seller' => 'seller_id',
             'creationDate' => 'created_at',
             'lastChange' => 'updated_at',
             'deletedDate' => 'deleted_at',
@@ -64,10 +68,12 @@ class UserTransformer extends TransformerAbstract
     {
         $attributes = [
             'id' => 'identifier',
-            'name' => 'name',
-            'email' => 'email',
-            'verified' => 'isVerified',
-            'admin' => 'isAdmin',
+            'name' => 'title',
+            'description' => 'details',
+            'quantity' => 'stock',
+            'status' => 'situation',
+            'image' => 'picture',
+            'seller_id' => 'seller',
             'created_at' => 'creationDate',
             'updated_at' => 'lastChange',
             'deleted_at' => 'deletedDate',

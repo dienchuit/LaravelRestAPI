@@ -2,10 +2,10 @@
 
 namespace App\Transformers;
 
-use App\Models\User;
+use App\Models\Category;
 use League\Fractal\TransformerAbstract;
 
-class UserTransformer extends TransformerAbstract
+class CategoryTransformer extends TransformerAbstract
 {
     /**
      * List of resources to automatically include
@@ -30,28 +30,25 @@ class UserTransformer extends TransformerAbstract
      *
      * @return array
      */
-    public function transform(User $user)
+    public function transform(Category $category)
     {
         return [
-            'identifier' => (int)$user->id,
-            'name' => (string)$user->name,
-            'email' => (string)$user->email,
-            'isVerified' => (int)$user->verified,
-            'isAdmin' => ($user->admin === 'true'),
-            'creationDate' => (string)$user->created_at,
-            'lastChange' => (string)$user->updated_at,
-            'deletedDate' => isset($user->deleted_at) ? (string) $user->deleted_at : null,
+            'identifier' => (int)$category->id,
+            'title' => (string)$category->name,
+            'details' => (string)$category->description,
+            'creationDate' => (string)$category->created_at,
+            'lastChange' => (string)$category->updated_at,
+            'deletedDate' => isset($category->deleted_at) ? (string) $category->deleted_at : null,
+
         ];
     }
-
+    
     public static function originalAttribute($index)
     {
         $attributes = [
             'identifier' => 'id',
-            'name' => 'name',
-            'email' => 'email',
-            'isVerified' => 'verified',
-            'isAdmin' => 'admin',
+            'title' => 'name',
+            'details' => 'description',
             'creationDate' => 'created_at',
             'lastChange' => 'updated_at',
             'deletedDate' => 'deleted_at',
@@ -64,10 +61,8 @@ class UserTransformer extends TransformerAbstract
     {
         $attributes = [
             'id' => 'identifier',
-            'name' => 'name',
-            'email' => 'email',
-            'verified' => 'isVerified',
-            'admin' => 'isAdmin',
+            'name' => 'title',
+            'description' => 'details',
             'created_at' => 'creationDate',
             'updated_at' => 'lastChange',
             'deleted_at' => 'deletedDate',

@@ -2,10 +2,10 @@
 
 namespace App\Transformers;
 
-use App\Models\User;
+use App\Models\Seller;
 use League\Fractal\TransformerAbstract;
 
-class UserTransformer extends TransformerAbstract
+class SellerTransformer extends TransformerAbstract
 {
     /**
      * List of resources to automatically include
@@ -30,17 +30,16 @@ class UserTransformer extends TransformerAbstract
      *
      * @return array
      */
-    public function transform(User $user)
+    public function transform(Seller $seller)
     {
         return [
-            'identifier' => (int)$user->id,
-            'name' => (string)$user->name,
-            'email' => (string)$user->email,
-            'isVerified' => (int)$user->verified,
-            'isAdmin' => ($user->admin === 'true'),
-            'creationDate' => (string)$user->created_at,
-            'lastChange' => (string)$user->updated_at,
-            'deletedDate' => isset($user->deleted_at) ? (string) $user->deleted_at : null,
+            'identifier' => (int)$seller->id,
+            'name' => (string)$seller->name,
+            'email' => (string)$seller->email,
+            'isVerified' => (int)$seller->verified,
+            'creationDate' => (string)$seller->created_at,
+            'lastChange' => (string)$seller->updated_at,
+            'deletedDate' => isset($seller->deleted_at) ? (string) $seller->deleted_at : null,
         ];
     }
 
@@ -51,7 +50,6 @@ class UserTransformer extends TransformerAbstract
             'name' => 'name',
             'email' => 'email',
             'isVerified' => 'verified',
-            'isAdmin' => 'admin',
             'creationDate' => 'created_at',
             'lastChange' => 'updated_at',
             'deletedDate' => 'deleted_at',
@@ -67,7 +65,6 @@ class UserTransformer extends TransformerAbstract
             'name' => 'name',
             'email' => 'email',
             'verified' => 'isVerified',
-            'admin' => 'isAdmin',
             'created_at' => 'creationDate',
             'updated_at' => 'lastChange',
             'deleted_at' => 'deletedDate',

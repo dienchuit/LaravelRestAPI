@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Transformers\TransactionTransformer;
 
 class Transaction extends Model
 {
@@ -16,6 +17,8 @@ class Transaction extends Model
     protected $hidden = [
         'pivot'
     ];
+
+    public $transformer = TransactionTransformer::class;
 
     protected $fillable = [
         'quantity',

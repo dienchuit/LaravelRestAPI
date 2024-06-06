@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Transformers\ProductTransformer;
 
 class Product extends Model
 {
@@ -20,6 +21,8 @@ class Product extends Model
     use HasFactory;
     const AVAILABLE_PRODUCT = 'available';
     const UNAVAILABLE_PRODUCT = 'unavailable';
+
+    public $transformer = ProductTransformer::class;
 
     // Note: using snake case 
     protected $appends = [
