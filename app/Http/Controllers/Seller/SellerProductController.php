@@ -7,6 +7,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\ApiController;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class SellerProductController extends ApiController
@@ -32,7 +33,7 @@ class SellerProductController extends ApiController
             ])
         );
         $product->status = Product::UNAVAILABLE_PRODUCT;
-        $product->image = '1.jpg';
+        $product->image = $request->image->store('');
         $product->save();
 
         return $this->showOne($product, 201);
@@ -47,8 +48,9 @@ class SellerProductController extends ApiController
                 'image' => 'image',
             ])
         );
-
+        
         $this->checkSeller($seller, $product);
+       
 
         if ($request->has('status')) {
             $product->status = $request->status;
@@ -62,6 +64,12 @@ class SellerProductController extends ApiController
             $product->name = $request->name;
         }
 
+        if ($request->has('image')) {
+            Storage::delete($product->image);
+            $product->image = $request->image->store('');
+            $product->name = $request->name;
+        }
+
         $product->save();
         return $this->showOne($product);
     }
@@ -70,6 +78,7 @@ class SellerProductController extends ApiController
     {
         $this->checkSeller($seller, $product);
         $product->delete();
+        Storage::delete($product->image);
         return $this->showOne($product);
     }
 
