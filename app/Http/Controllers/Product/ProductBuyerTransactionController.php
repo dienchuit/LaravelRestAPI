@@ -7,9 +7,22 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ApiController;
+use App\Transformers\TransactionTransformer;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class ProductBuyerTransactionController extends ApiController
+class ProductBuyerTransactionController extends ApiController implements HasMiddleware
 {
+
+    /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('transforminput:'. TransactionTransformer::class, only: ['store','update']),
+        ];
+    }
     /**
      * Store a newly created resource in storage.
      */

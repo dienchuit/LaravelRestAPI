@@ -4,10 +4,23 @@ namespace App\Http\Controllers\Category;
 
 use App\Http\Controllers\ApiController;
 use App\Models\Category;
+use App\Transformers\CategoryTransformer;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class CategoryController extends ApiController
+class CategoryController extends ApiController implements HasMiddleware
 {
+
+    /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('transforminput:'. CategoryTransformer::class, only: ['store','update']),
+        ];
+    }
     /**
      * Display a listing of the resource.
      */

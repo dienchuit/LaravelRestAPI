@@ -7,11 +7,25 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\ApiController;
+use App\Transformers\ProductTransformer;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class SellerProductController extends ApiController
+class SellerProductController extends ApiController implements HasMiddleware
 {
+
+    /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('transforminput:'. ProductTransformer::class, only: ['store','update']),
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */

@@ -12,6 +12,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use App\Http\Middleware\SignatureMiddleware;
+use App\Http\Middleware\TransformInputMiddleware;
 use Illuminate\Routing\Middleware\ThrottleRequests;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -24,8 +25,10 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'signature' => SignatureMiddleware::class
+            'signature' => SignatureMiddleware::class,
+            'transforminput' => TransformInputMiddleware::class,
         ]);
+        
         $middleware->api(prepend: [
             'signature',
             'throttle'

@@ -6,9 +6,22 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\ApiController;
+use App\Transformers\UserTransformer;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class UserController extends ApiController
+class UserController extends ApiController implements HasMiddleware
 {
+
+    /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('transforminput:'. UserTransformer::class, only: ['store','update']),
+        ];
+    }
     /**
      * Display a listing of the resource.
      */
