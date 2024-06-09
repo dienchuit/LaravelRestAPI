@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Cache;
 
 trait ApiResponser
 {
-    private function successResponse($data, $code)
+    protected function successResponse($data, $code)
     {
         return response()->json($data, $code);
     }
@@ -33,7 +33,7 @@ trait ApiResponser
         $collection = $this->paginate($collection);
 
         $collection = $this->transformData($collection, $transformer);
-        $collection = $this->cacheResponse($collection);
+        // $collection = $this->cacheResponse($collection);
 
         return $this->successResponse($collection, $code);
     }
@@ -42,7 +42,7 @@ trait ApiResponser
     {
         $transformer = $instance->transformer;
         $instance = $this->transformData($instance,  $transformer);
-        $instance = $this->cacheResponse($instance);
+        // $instance = $this->cacheResponse($instance);
 
         return $this->successResponse($instance, $code);
     }

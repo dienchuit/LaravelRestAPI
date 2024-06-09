@@ -31,7 +31,7 @@ return Application::configure(basePath: dirname(__DIR__))
         
         $middleware->api(prepend: [
             'signature',
-            'throttle'
+            'throttle',            
         ]);
         // $middleware->append(ThrottleRequests::class);
     })

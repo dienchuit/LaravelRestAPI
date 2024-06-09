@@ -61,6 +61,8 @@ class UserTransformer extends TransformerAbstract
             'creationDate' => 'created_at',
             'lastChange' => 'updated_at',
             'deletedDate' => 'deleted_at',
+            'password' => 'password',
+            'password_confirmation' => 'password_confirmation',
         ];
 
         return isset($attributes[$index]) ? $attributes[$index] : null;
@@ -77,6 +79,7 @@ class UserTransformer extends TransformerAbstract
             'created_at' => 'creationDate',
             'updated_at' => 'lastChange',
             'deleted_at' => 'deletedDate',
+            'password' => 'password',
         ];
 
         return isset($attributes[$index]) ? $attributes[$index] : null;
