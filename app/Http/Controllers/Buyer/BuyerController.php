@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Buyer;
 
-use App\Http\Controllers\ApiController;
 use App\Models\Buyer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use App\Http\Controllers\ApiController;
 
 class BuyerController extends ApiController
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+    
     public function index()
     {
         $buyers = Buyer::get();
@@ -22,8 +22,9 @@ class BuyerController extends ApiController
     /**
      * Display the specified resource.
      */
-    public function show(Buyer $buyer)
+    public function show(Request $request, Buyer $buyer)
     {        
+        Gate::authorize('view', $buyer);
         return $this->showOne($buyer);
     }
 
