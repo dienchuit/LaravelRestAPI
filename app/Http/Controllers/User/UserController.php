@@ -9,6 +9,7 @@ use App\Http\Controllers\ApiController;
 use App\Transformers\UserTransformer;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use App\Services\UserService;
 
 class UserController extends ApiController implements HasMiddleware
 {
@@ -18,7 +19,7 @@ class UserController extends ApiController implements HasMiddleware
     protected function getUserService()
     {
         if (!$this->userService) {
-            $this->userService = app()->make('App\Services\UserService');
+            $this->userService = app()->make(UserService::class);
         }
         return $this->userService;
     }
