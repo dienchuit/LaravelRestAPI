@@ -13,6 +13,16 @@ use Illuminate\Routing\Controllers\Middleware;
 class UserController extends ApiController implements HasMiddleware
 {
 
+    protected $userService;
+
+    protected function getUserService()
+    {
+        if (!$this->userService) {
+            $this->userService = app()->make('App\Services\UserService');
+        }
+        return $this->userService;
+    }
+
     /**
      * Get the middleware that should be assigned to the controller.
      */
@@ -27,7 +37,7 @@ class UserController extends ApiController implements HasMiddleware
      */
     public function index()
     {
-        $users = User::all();
+        $users = $this->getUserService()->getAllUsers();
         return $this->showAll($users);
     }
 
