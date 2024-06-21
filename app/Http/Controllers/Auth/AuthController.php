@@ -23,7 +23,7 @@ class AuthController extends ApiController
         
         return $this->successResponse([
             'user'=>$user,
-            'access_token' => $user->createToken('Api Token Of User '.$user->name)->plainTextToken,
+            'access_token' => $user->createToken('Api Token Of User '.$user->name, ['*'], now()->addWeek(),9)->plainTextToken,
         ], 201);
     }
 

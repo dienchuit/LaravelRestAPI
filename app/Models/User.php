@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Transformers\UserTransformer;
 use Laravel\Sanctum\HasApiTokens;
+use DateTimeInterface;
 
 class User extends Authenticatable
 {
@@ -104,4 +105,38 @@ class User extends Authenticatable
     {
         return Str::random(40);
     }
+
+    // /**
+    //  * Get the access tokens that belong to model.
+    //  *
+    //  * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+    //  */
+    // public function tokens()
+    // {
+    //     return $this->morphMany(\Laravel\Sanctum\Sanctum::$personalAccessTokenModel, 'tokenable');
+    // }
+
+    /**
+     * Create a new personal access token for the user.
+     *
+     * @param  string  $name
+     * @param  array  $abilities
+     * @param  \DateTimeInterface|null  $expiresAt
+     * @return \Laravel\Sanctum\NewAccessToken
+     */
+    public function createToken(string $name, array $abilities = ['*'], DateTimeInterface $expiresAt = null, $deviceId = 1)
+    {
+        $plainTextToken = $this->generateTokenString();
+
+        $token = $this->tokens()->create([
+            'name' => $name,
+            'token' => hash('sha256', $plainTextToken),
+            'abilities' => $abilities,
+            'expires_at' => $expiresAt,
+            'device_id' => $deviceId,
+        ]);
+
+        return new \Laravel\Sanctum\NewAccessToken($token, $token->getKey().'|'.$plainTextToken);
+    }
+
 }

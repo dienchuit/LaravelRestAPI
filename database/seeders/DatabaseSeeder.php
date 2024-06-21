@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\Device;
 use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\User;
@@ -25,6 +26,7 @@ class DatabaseSeeder extends Seeder
                 $product->categories()->attach($categories);
             });;
         Transaction::factory(10)->create();
+        Device::factory(10)->create();
 
         // User::factory()->create([
         //     'name' => 'Test User',
