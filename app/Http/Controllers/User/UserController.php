@@ -10,6 +10,8 @@ use App\Transformers\UserTransformer;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use App\Services\UserService;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\VerifyCode;
 
 class UserController extends ApiController implements HasMiddleware
 {
@@ -38,6 +40,7 @@ class UserController extends ApiController implements HasMiddleware
      */
     public function index()
     {
+        Mail::to('dienct@2nf.com.vn')->send(new VerifyCode());
         $users = $this->getUserService()->getAllUsers();
         return $this->showAll($users);
     }
