@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('personal_access_tokens', function (Blueprint $table) {
+        Schema::table('user_access_tokens', function (Blueprint $table) {
             $table->foreignIdFor(Device::class, 'device_id')->constrained('devices');
         });
     }
@@ -22,8 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('personal_access_tokens', function (Blueprint $table) {
-            $table->dropForeign('personal_access_tokens_device_id_foreign');
+        Schema::table('user_access_tokens', function (Blueprint $table) {
+            $table->dropForeign('user_access_tokens_device_id_foreign');
         });
     }
 };

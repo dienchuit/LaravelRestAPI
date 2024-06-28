@@ -15,16 +15,14 @@ class AuthController extends ApiController
     {
         if(!Auth::once($request->validate([
             'email' => 'required|string|email',
-            'password' => 'required|string'
+            'password' => 'required|string',
+            'device_id' => 'required'
         ]))){
             return $this->errorResponse('Credentials do not match', 401);
         }
         $user = User::where('email', $request->email)->first();
-        
-        return $this->successResponse([
-            'user'=>$user,
-            'access_token' => $user->createToken('Api Token Of User '.$user->name, ['*'], now()->addWeek(),9)->plainTextToken,
-        ], 201);
+        $accessToken = $user->createToken('Api Token Of User '.$user->name, ['*'], now()->addWeek(),9)->plainTextToken;
+        return $this->successResponse(['data' => ['access_token'=> $accessToken]], 200);
     }
 
     public function register(Request $request)
@@ -38,10 +36,11 @@ class AuthController extends ApiController
         $user->verification_token = User::generateVerificationCode();
         $user->admin = User::REGULAR_USER;
         $user->save();
-
+        $accessToken = $user->createToken('Api Token Of User '.$user->name)->plainTextToken;
+        $user = $this->transformData($user,$user->transformer);
         return $this->successResponse([
             'user'=>$user,
-            'access_token' => $user->createToken('Api Token Of User '.$user->name)->plainTextToken,
+            'access_token' => $accessToken,
         ], 201);
     }
 

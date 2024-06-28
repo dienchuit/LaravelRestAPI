@@ -5,14 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Laravel\Sanctum\PersonalAccessToken as SanctumPersonalAccessToken;
 
-class PersonalAccessToken extends SanctumPersonalAccessToken
+class UserAccessToken extends SanctumPersonalAccessToken
 {
     use HasFactory;
     /**
-     * The attributes that are mass assignable.
+     * The attributes that are mass assignable.user_access_tokens
      *
      * @var array
      */
+    protected $table = 'user_access_tokens';
+
     protected $fillable = [
         'name',
         'token',
